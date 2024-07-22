@@ -4,25 +4,36 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QDebug>
+#include <vector>
 
 namespace Ui {
-class MainWindow;
+class Producer;
 }
 
-class MainWindow : public QMainWindow
-{
-  Q_OBJECT
+class MainWindow : public QMainWindow {
+    Q_OBJECT
 
 public:
-  explicit MainWindow(QWidget *parent = 0);
-  ~MainWindow();
-  
-  void tcpConnect();
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
 public slots:
-  void getData();
+    void Connect();
+    void Disconnect();
+    void getData();
+    QString getIP();
+    void Start();
+    void Stop();
+    void timerEvent(QTimerEvent *t);
+    void Update();
+    void updateGetDataVisibility();
 private:
-  Ui::MainWindow *ui;
-  QTcpSocket *socket;
+    Ui::Producer *ui;
+    QTcpSocket *socket;
+    bool timerIsRunning = false;
+    int timer;
+    QString pastIP;
+    std::vector<QString> ips;
 };
 
 #endif // MAINWINDOW_H
